@@ -1,12 +1,15 @@
 /*****************************
 * Variables and data types
 */
+// console.log("hello world!!!");
+ 
 /*
 var firstName = 'John';
 console.log(firstName);
 
 var lastName = 'Smith';
 var age = 28;
+
 
 var fullAge = true;
 console.log(fullAge);
@@ -16,12 +19,17 @@ console.log(job);
 
 job = 'Teacher';
 console.log(job);
+*/
+
 
 // Variable naming rules
+/*
 var _3years = 3;
 var johnMark = 'John and MArk';
-var if = 23;
 */
+// var if = 23; // (fails)
+
+// underscore, dollar sign, or letter for var names...
 
 
 
@@ -58,24 +66,25 @@ console.log(firstName + ' ' + lastName);
 */
 /*
 var year, yearJohn, yearMark;
-now = 2018;
+now = 2020;
 ageJohn = 28;
 ageMark = 33;
 
 // Math operators
-yearJohn = now - ageJohn;
+yearJohn = now + ageJohn;
 yeahMark = now - ageMark;
 
 console.log(yearJohn);
 
 console.log(now + 2);
 console.log(now * 2);
-console.log(now / 10);
+console.log(now / 13);  // results in decimal (not rounded)
+
 
 
 // Logical operators
 var johnOlder = ageJohn < ageMark;
-console.log(johnOlder);
+console.log(johnOlder);  // results in boolean true
 
 
 // typeof operator
@@ -84,6 +93,9 @@ console.log(typeof ageJohn);
 console.log(typeof 'Mark is older tha John');
 var x;
 console.log(typeof x);
+
+var d = typeof johnOlder; 
+console.log(d); // boolean true
 */
 
 
@@ -513,6 +525,8 @@ console.log(jane);
 /*****************************
 * Objects and methods
 */
+
+
 /*
 var john = {
     firstName: 'John',
