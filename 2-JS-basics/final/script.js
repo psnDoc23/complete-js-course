@@ -470,7 +470,7 @@ console.log(whatDoYouDo('retired', 'Mark'));
 /*****************************
 * Arrays
 */
-
+/*
 // Initialize new array
 var names = ['John', 'Mark', 'Jane'];
 var years = new Array(1990, 1969, 1948);
@@ -500,7 +500,7 @@ console.log(john.indexOf('23'));  // -1 b/c DNE
 var isDesigner = john.indexOf('designer') === -1 ? 'John is NOT a designer' : 'John IS a designer';
 console.log(isDesigner);
 
-
+*/
 
 
 /*****************************
@@ -518,25 +518,28 @@ In the end, John would like to have 2 arrays:
 
 (NOTE: To calculate 20% of a value, simply multiply it with 20/100 = 0.2)
 */
+/* Dave answer, correct solutions */
+/*
+var bills = [124, 48, 268];
+var totals = [];
+
+bills.forEach(calcTip);
+
+function calcTip(item, index) {
+    if (item > 200) {
+        totals[index] = ((item*0.1)+item);   
+    }
+    else if (item < 50) {
+        totals[index] = ((item*0.2)+item);   
+    }
+    else {
+        totals[index] = ((item*0.15)+item);   
+    }
+}
+console.log(totals);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+*/
 
 
 
@@ -594,23 +597,24 @@ var john = {
     isMarried: false
 };
 
-console.log(john.firstName);
-console.log(john['lastName']);
+console.log(john.firstName); // dot notation
+console.log(john['lastName']); // brackets See below for interesting example
+
 var x = 'birthYear';
-console.log(john[x]);
+console.log(john[x]); // handy!
 
 john.job = 'designer';
 john['isMarried'] = true;
 console.log(john);
 
 // new Object syntax
-var jane = new Object();
+var jane = new Object(); // different way of doing same thing as above
 jane.firstName = 'Jane';
 jane.birthYear = 1969;
 jane['lastName'] = 'Smith';
 console.log(jane);
-*/
 
+*/
 
 
 /*****************************
@@ -648,7 +652,41 @@ Let's remember the first coding challenge where Mark and John compared their BMI
 3. In the end, log to the console who has the highest BMI, together with the full name and the respective BMI. Don't forget they might have the same BMI.
 
 Remember: BMI = mass / height^2 = mass / (height * height). (mass in kg and height in meter).
+*/
+/* DGR try: */
+/*
+var john = {
+    fullName: 'John Smith',
+    mass: 110,
+    height: 1.95,
+    calcBMI: function () {
+        this.bmi = this.mass / (this.height * this.height);
+        return this.bmi;
+    }
+}
+console.log(john.calcBMI());
 
+
+var mark = {
+fullName: 'Mark Miller',
+    mass: 78,
+    height: 1.69,
+    calcBMI: function() {
+        this.bmi = this.mass / (this.height * this.height);
+        return this.bmi;
+    }
+}
+console.log(mark.calcBMI());
+
+if (mark.calcBMI() > john.calcBMI()) {
+    console.log("Mark is fatter.");
+} else { 
+    console.log("John is fatter.");
+}
+
+*/
+
+/*
 GOOD LUCK 😀
 */
 /*
@@ -692,6 +730,7 @@ if (john.calcBMI() > mark.calcBMI()) {
 for (var i = 1; i <= 20; i += 2) {
     console.log(i);
 }
+*/
 
 // i = 0, 0 < 10 true, log i to console, i++
 // i = 1, 1 < 10 true, log i to the console, i++
@@ -699,33 +738,38 @@ for (var i = 1; i <= 20; i += 2) {
 // i = 9, 9 < 10 true, log i to the console, i++
 // i = 10, 10 < 10 FALSE, exit the loop!
 
-
+/*
 var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
 for (var i = 0; i < john.length; i++) {
     console.log(john[i]);
 }
+*/
 
-// While loop
+// While loop  // DGR: while loop assesses condition at TOP (in SAS anyway)
+/*
 var i = 0;
 while(i < john.length) {
     console.log(john[i]);
     i++;
 }
-
+*/
 
 // continue and break statements
-var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
+// var john = ['John', 'Smith', 1990, 'designer', false, 'blue'];
 
+/*
 for (var i = 0; i < john.length; i++) {
-    if (typeof john[i] !== 'string') continue;
+    if (typeof john[i] !== 'string') continue; // skip current iteration
     console.log(john[i]);
 }
-
+*/
+/*
 for (var i = 0; i < john.length; i++) {
-    if (typeof john[i] !== 'string') break;
+    if (typeof john[i] !== 'string') break;  // exit loop altogether
     console.log(john[i]);
 }
-
+*/
+/*
 // Looping backwards
 for (var i = john.length - 1; i >= 0; i--) {
     console.log(john[i]);
@@ -761,6 +805,41 @@ Mark likes to tip 20% of the bill when the bill is less than $100, 10% when the 
 
 GOOD LUCK 😀
 */
+// DGR try:
+/*
+var jfamtip = {
+   
+    totals: [124, 48, 268, 180, 42],
+    calcTips: function() {
+        this.tips = [];
+        this.totWithTips = [];
+        for (i=0; i < this.totals.length; i++) {
+            var pct;
+            var bill = this.totals[i];
+            if (bill < 50) {
+                pct = .2;
+            } else if (bill >= 50 && bill < 200) {
+                pct = .15;
+            } else {
+                pct = .1;
+            }
+            this.tips[i] = this.totals[i] * pct;
+            this.totWithTips[i] = this.totals[i] + this.tips[i];
+            console.log(this.totWithTips[i]);
+            
+        }
+        this.sumTotal = 0;
+        for (j=0; j < this.totals.length; j++) {
+            this.sumTotal = this.sumTotal + this.totWithTips[j];
+        }
+        console.log("$" + this.sumTotal);
+        console.log("$" + (this.sumTotal / this.totals.length));
+    }   
+        
+}
+jfamtip.calcTips();
+*/
+// whoops accidentally calculated the sum totals including tips instead of just tips...
 
 /*
 var john = {
