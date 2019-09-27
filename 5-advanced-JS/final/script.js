@@ -1,27 +1,43 @@
 /////////////////////////////
 // Lecture: Function constructor
 
+/*
+
+// object literal:
 var john = {
     name: 'John',
     yearOfBirth: 1990,
-    job: 'teacher'
-};
+    job: 'slacker'
+}
+console.log(john);
 
+// encapsulation
+// function contstructor:
+// instantiation:
 var Person = function(name, yearOfBirth, job) {
     this.name = name;
     this.yearOfBirth = yearOfBirth;
     this.job = job;
 }
 
+// objects will now have access to this because it's in their prototype
+// function not in the object but we can still use it due to inheritance
 Person.prototype.calculateAge  = function() {
     console.log(2016 - this.yearOfBirth);
 };
 
+// not common to add properties in the same way as function, but still good to know (same concept)
 Person.prototype.lastName = 'Smith';
 
+// new instances, allow this to point to the john object, NOT the global object
 var john = new Person('John', 1990, 'teacher');
 var jane = new Person('Jane', 1969, 'designer');
 var mark = new Person('Mark', 1948, 'retired');
+console.log(john);
+console.log(mark);
+console.log(john instanceof Person);
+console.log(mark instanceof Person);
+
 
 john.calculateAge();
 jane.calculateAge();
@@ -30,8 +46,21 @@ mark.calculateAge();
 console.log(john.lastName);
 console.log(jane.lastName);
 console.log(mark.lastName);
+*/
 
 
+/* console output:
+DGR: hasOwnProperty
+john.hasOwnProperty('job')
+true
+john.hasOwnProperty('lastName')
+false
+NOTE: false on lastName because lastName is a property of the prototype, not john specifically
+
+DGR: instanceof
+john instanceof Person
+true
+*/
 
 
 /////////////////////////////
@@ -43,22 +72,55 @@ var personProto = {
     }
 };
 
-var john = Object.create(personProto);
+var john = Object.create(personProto); // pass the var personProto to the Object.create() (which expects an object to be passed to it)
+// at this point the object is empty, BUT it does have the prototype (type john in the console)
+
+// not ideal to fill it this way...
 john.name = 'John';
 john.yearOfBirth = 1990;
 john.job = 'teacher';
+// see jane below, better...
 
+// better. second parameter is all the same info (kind of funky but it works)
 var jane = Object.create(personProto, {
     name: { value: 'Jane' },
     yearOfBirth: { value: 1969 },
     job: { value: 'designer' }
 });
+// same result. same use of prototype w/ a different way of creating
+// point: object.create() creates an object that inherits directly from the object in the first argument
+// point: function constructor inherits from the constructors Prototype property
+// key point: object.create() allows us to directly specify which object should be the prototype
+// retrospect: this is all about creating object. function constructor is the one that will be used most often and for the rest of the course;
 */
 
+
+/* DGR: console.info(x);
+var x = [2,4,6]
+undefined
+x
+console.info(x);
+(3) […]
+​
+0: 2
+​
+1: 4
+​
+2: 6
+​
+length: 3  // this is the part that he points out - that length property is part of the array object
+NOTE: the prototype method of the array includes ALL of these methods in the prototype property of the array.
+It's available due to the prototype change. These are stored in their prototype.
+
+*/
 
 
 /////////////////////////////
 // Lecture: Primitives vs objects
+// differnces between primitives and objects:
+// variables that hold primitives ACTUALLY HOLD THE DATA that's associated with them inside the variable itself!
+// variables that hold objects, DONT ACTUALLY hold a real copy of the object, it just points to the place in memory where the object exists!
+// DGR: the above is MASSIVELY important!!!!
 /*
 // Primitives
 var a = 23;
@@ -66,6 +128,8 @@ var b = a;
 a = 46;
 console.log(a);
 console.log(b);
+// a and b hold their OWN copy of the data b/c they're primitives
+
 
 
 
@@ -77,9 +141,12 @@ var obj1 = {
 var obj2 = obj1;
 obj1.age = 30;
 console.log(obj1.age);
-console.log(obj2.age);
+console.log(obj2.age);  // obj2 age is 30!!! points to the real object, obj1
 
-// Functions
+
+
+
+// Functions - how do these behave?
 var age = 27;
 var obj = {
     name: 'Jonas',
@@ -93,11 +160,11 @@ function change(a, b) {
 
 change(age, obj);
 
-console.log(age);
-console.log(obj.city);
+console.log(age); // does NOT change because only a copy is created, and a is a primitive outside the function scope
+console.log(obj.city); // DOES change because the reference can be accessed and can be changed, because b and obj point to the same thing and reflect the change
+
+
 */
-
-
 
 /////////////////////////////
 // Lecture: Passing functions as arguments
@@ -107,7 +174,7 @@ var years = [1990, 1965, 1937, 2005, 1998];
 function arrayCalc(arr, fn) {
     var arrRes = [];
     for (var i = 0; i < arr.length; i++) {
-        arrRes.push(fn(arr[i]));
+        arrRes.push(fn(arr[i]));  // fn is defined as the second parameter into arrayCalc and is a call back function
     }
     return arrRes;
 }
@@ -134,9 +201,10 @@ var fullAges = arrayCalc(ages, isFullAge);
 var rates = arrayCalc(ages, maxHeartRate);
 
 console.log(ages);
+console.log(fullAges);
 console.log(rates);
-*/
 
+*/
 
 
 /////////////////////////////
@@ -169,8 +237,8 @@ designerQuestion('Mark');
 designerQuestion('Mike');
 
 interviewQuestion('teacher')('Mark');
-*/
 
+*/
 
 
 /////////////////////////////
@@ -182,15 +250,19 @@ function game() {
 }
 game();
 
+*/
 
+/*
+// can only call once, NOT reusable, but good for data privacy...
 (function () {
     var score = Math.random() * 10;
     console.log(score >= 5);
-})();
+})(); // called with () at end, same as game() above except anonymous
+// point: data privacy
 
-//console.log(score);
-
-
+// console.log(score); // shows that variable is not available outside the function
+*/
+/*
 (function (goodLuck) {
     var score = Math.random() * 10;
     console.log(score >= 5 - goodLuck);
@@ -203,13 +275,16 @@ game();
 // Lecture: Closures
 /*
 function retirement(retirementAge) {
-    var a = ' years left until retirement.';
+    var a = ' years left until retirement.'; // how is 'a' available??? (see below)
     return function(yearOfBirth) {
         var age = 2016 - yearOfBirth;
         console.log((retirementAge - age) + a);
     }
 }
-
+// A: an inner function ALWAYS has access to the outer functions properties and methods
+// the secret is that once the execution context is gone, the variable object remains in memory (and in the scope chain) 
+// so... the anonomyous function has access to the outer function long after the execution context has closed! woohoo.
+// note: closures are not created by the programmer, js just does it for us, it's how it works...
 var retirementUS = retirement(66);
 var retirementGermany = retirement(65);
 var retirementIceland = retirement(67);
@@ -218,8 +293,9 @@ retirementGermany(1990);
 retirementUS(1990);
 retirementIceland(1990);
 
-//retirement(66)(1990);
+//retirement(66)(1990);  // same as job questions example...
 
+*/
 
 function interviewQuestion(job) {
     return function(name) {
@@ -234,7 +310,7 @@ function interviewQuestion(job) {
 }
 
 interviewQuestion('teacher')('John');
-*/
+
 
 
 
