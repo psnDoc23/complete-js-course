@@ -295,7 +295,7 @@ retirementIceland(1990);
 
 //retirement(66)(1990);  // same as job questions example...
 
-*/
+
 
 function interviewQuestion(job) {
     return function(name) {
@@ -311,7 +311,8 @@ function interviewQuestion(job) {
 
 interviewQuestion('teacher')('John');
 
-
+// Compare the above with closures, with the same even farther above!
+*/
 
 
 /////////////////////////////
@@ -338,7 +339,7 @@ var emily = {
 
 john.presentation('formal', 'morning');
 
-john.presentation.call(emily, 'friendly', 'afternoon');
+john.presentation.call(emily, 'friendly', 'afternoon'); // method borrowing
 
 //john.presentation.apply(emily, ['friendly', 'afternoon']);
 
@@ -374,8 +375,8 @@ var ages = arrayCalc(years, calculateAge);
 var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
 console.log(ages);
 console.log(fullJapan);
-*/
 
+*/
 
 
 
